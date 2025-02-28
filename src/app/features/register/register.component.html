@@ -1,0 +1,50 @@
+<div class="register-container">
+    <form nz-form [formGroup]="registerForm" class="register-form" (ngSubmit)="onRegister()">
+      <h2>Register</h2>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please enter your email!">
+          <nz-input-group nzPrefixIcon="mail">
+            <input type="email" nz-input formControlName="email" placeholder="Email" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Enter Your First Name">
+          <nz-input-group nzPrefixIcon="user">
+            <input type="text" nz-input formControlName="firstName" placeholder="First Name" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Enter Your Last Name">
+          <nz-input-group nzPrefixIcon="user">
+            <input type="text" nz-input formControlName="lastName" placeholder="Last Name" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please select your role!">
+          <nz-select formControlName="role" nzPlaceHolder="Select Role">
+            <nz-option *ngFor="let role of roles" [nzValue]="role.value" [nzLabel]="role.label"> </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please enter your password!">
+          <nz-input-group nzPrefixIcon="lock">
+            <input type="password" nz-input formControlName="password" placeholder="Password" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Confirm your password!">
+          <nz-input-group nzPrefixIcon="lock">
+            <input type="password" nz-input formControlName="confirmPassword" placeholder="Confirm Password" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <button nz-button class="register-form-button" [nzType]="'primary'">Register</button>
+      <p>Already have an account? <a routerLink="/login">Login</a></p>
+    </form>
+</div>
+  

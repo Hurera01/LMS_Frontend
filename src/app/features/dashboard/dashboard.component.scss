@@ -1,0 +1,24 @@
+.dashboard-container {
+    padding: 2rem;
+    text-align: center;
+    background-color: #f4f4f4;  // Light background
+    min-height: 100vh;        // Full viewport height for dashboard
+  }
+  
+  // Logout button styling
+  .logout-btn {
+    padding: 10px;
+    background-color: #dc3545; // Red color for logout
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 1rem;
+  }
+  
+  .logout-btn:hover {
+    background-color: #c82333; // Darker red on hover
+  }
+  

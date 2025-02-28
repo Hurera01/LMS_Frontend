@@ -1,0 +1,70 @@
+<!-- <p>users works!</p>
+<button (click)="onUserData()">click me</button> -->
+
+
+<nz-table [nzFrontPagination]="false" [nzShowPagination]="false" #fixedTable [nzData]="listOfData" [nzScroll]="{ x: '1150px', y: '440px' }">
+    <thead>
+      <tr>
+        <th nzLeft>UserId</th>
+        <th nzLeft>Email</th>
+        <th>FirstName</th>
+        <th>LastName</th>
+
+        <th nzRight>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- @for (data of fixedTable.data; track data) { -->
+        <tr *ngFor="let data of listOfData">
+          <td nzLeft>{{ data.userId }}</td>
+          <td nzLeft>{{ data.email }}</td>
+          <td>{{ data.firstName }}</td>
+          <td>{{ data.lastName }}</td>
+          <td nzRight>
+            <button nz-button nzType="link" (click)="onEditUser(data)">Edit</button>
+            <button nz-button nzType="link" nzDanger (click)="onDeleteUser(data)">Delete</button>
+          </td>
+        </tr>
+      <!-- } -->
+    </tbody>
+  </nz-table>
+
+<nz-pagination 
+  [(nzPageIndex)]="pageIndex" 
+  [nzTotal]="total" 
+  [nzPageSize]="pageSize"
+  (nzPageIndexChange)="onPageChange($event)">
+</nz-pagination>
+
+<!-- <button nz-button [nzType]="'primary'" (click)="showModal()"><span>Show Modal</span></button>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+ 
+</nz-modal> -->
+
+<nz-modal [(nzVisible)]="isEditModalVisible" nzTitle="Edit User" (nzOnCancel)="isEditModalVisible = false" (nzOnOk)="updateUser()">
+  <ng-container *nzModalContent>
+    <form nz-form>
+      <nz-form-item>
+        <nz-form-label nzSpan="6" nzFor="email">Email</nz-form-label>
+        <nz-form-control>
+          <input nz-input id="email" [(ngModel)]="selectedUser.email" name="email" />
+        </nz-form-control>
+      </nz-form-item>
+  
+      <nz-form-item>
+        <nz-form-label nzSpan="6" nzFor="firstName">First Name</nz-form-label>
+        <nz-form-control>
+          <input nz-input id="firstName" [(ngModel)]="selectedUser.firstName" name="firstName" />
+        </nz-form-control>
+      </nz-form-item>
+  
+      <nz-form-item>
+        <nz-form-label nzSpan="6" nzFor="lastName">Last Name</nz-form-label>
+        <nz-form-control>
+          <input nz-input id="lastName" [(ngModel)]="selectedUser.lastName" name="lastName" />
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+</nz-modal>
+
