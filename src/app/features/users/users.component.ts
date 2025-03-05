@@ -29,6 +29,7 @@ export class UsersComponent {
   total: number = 0; 
   selectedUser: ItemData = { userId: 0, email: '', firstName: '', lastName: '' };
   isEditModalVisible = false;
+  isVisible = false;
 
   private userService = inject(UserService);
 
@@ -63,12 +64,19 @@ export class UsersComponent {
   }
 
   updateUser(): void {
+    debugger;
     console.log('Updated user:', this.selectedUser);
-    this.isEditModalVisible = false;
+    const userObj = this.selectedUser;
+    const user = {
+      Email: userObj.email,
+      FirstName: userObj.firstName,
+      LastName: userObj.lastName
+    }
+    this.userService.editUser(userObj.userId, user).subscribe(() => {
+      this.fetchUsers();
+      this.isEditModalVisible = false;
+    });
   }
-
-
-  isVisible = false;
 
   showModal(): void {
     this.isVisible = true;

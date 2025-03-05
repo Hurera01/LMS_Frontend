@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
 
@@ -14,7 +15,7 @@ export class AuthService {
 
   private apiUrl = 'https://localhost:7134/api/Auth/login';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   login(credentials: object): Observable<any>{
     return this.http.post(`${this.apiUrl}`, credentials);
@@ -34,6 +35,7 @@ export class AuthService {
   }
 
   refreshToken(refreshToken: string): Observable<{ token: string, refreshToken: string }> {
+    debugger;
     return this.http.post<{ token: string, refreshToken: string }>(
       `https://localhost:7134/api/Auth/refresh-token`, 
       { refreshToken }
@@ -42,18 +44,34 @@ export class AuthService {
 
   logout(): void {
     localStorage.clear();
+    this.router.navigate(['/login'])
   }
   
-  isAuthenticate(): boolean{
-    const token = localStorage.getItem('token');
-    if(!token) return false;
+  isAuthenticate(): boolean {
+    const token = this.getToken();
+    if (!token) return false;
 
-    try{
-      const decoded = jwtDecode<JwtPayload>(token);
-      return decoded.exp > Date.now() / 1000;
-    }catch(error){
+    const isExpired = this.isTokenExpired(token);
+    if (isExpired) {
+      this.logout();
       return false;
     }
+    return true;
+  }
+
+  isTokenExpired(token: string): boolean {
+    try {
+      const decodedToken: any = jwtDecode(token);
+      const expirationDate = decodedToken.exp * 1000;
+      return Date.now() > expirationDate;
+    } catch (e) {
+      console.error('Invalid token:', e);
+      return true;
+    }
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
   }
 
   register(credentials: object): Observable<any>{

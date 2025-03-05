@@ -6,6 +6,9 @@ import { authGuard } from './guards/auth.guard';
 import { RegisterComponent } from './features/register/register.component';
 import { UsersComponent } from './features/users/users.component';
 import { BooksComponent } from './features/books/books.component';
+import { LibraryComponent } from './features/library/library.component';
+import { StudentComponent } from './features/student/student.component';
+import { MyBooksComponent } from './features/my-books/my-books.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: '/login', pathMatch: 'full'},
@@ -21,7 +24,16 @@ export const routes: Routes = [
                 canActivate: [authGuard],
                 children: [
                     {path:'users', component: UsersComponent},
-                    {path:'books', component: BooksComponent},  
+                    {path:'books', component: BooksComponent},
+                    {
+                        path: 'student',
+                        component: StudentComponent,
+                        children:[
+                            {path:'library', component:LibraryComponent},
+                            {path:'my-books', component:MyBooksComponent},
+                            {path:'', redirectTo:'library', pathMatch:'full'}
+                        ]
+                    },
                     { path: '', redirectTo: 'users', pathMatch: 'full' } 
                 ] 
             },

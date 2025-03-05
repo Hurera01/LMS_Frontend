@@ -4,12 +4,13 @@ import { AuthService } from '../core/services/auth.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
-
   const authService = inject(AuthService);
-  if(!authService.isAuthenticate()){
-    router.navigate(['/login']); 
-    return false;
+
+  if (authService.isAuthenticate()) {
+    console.log('Token valid');
+    return true; // Allow interceptor to handle refresh
   }else{
-    return true;
+    router.navigate(['/login']);
+    return false;
   }
 };
